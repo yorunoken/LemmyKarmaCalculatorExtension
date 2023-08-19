@@ -1,9 +1,7 @@
 const instance = window.location.host;
 const baseURL = `https://${instance}/api/v3`;
 
-var ulElement = document.querySelectorAll(".list-inline.mb-2")[1];
-var newLi = document.createElement("li");
-newLi.className = "list-inline-item badge text-bg-light";
+let shown = false;
 
 function getJwtCookie(cookieName) {
   const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
@@ -17,6 +15,11 @@ function getJwtCookie(cookieName) {
 }
 
 async function main() {
+  shown = true;
+  var ulElement = document.querySelectorAll(".list-inline.mb-2")[1];
+  var newLi = document.createElement("li");
+  newLi.className = "list-inline-item badge text-bg-light";
+
   newLi.textContent = `Loading...`;
   ulElement.appendChild(newLi);
 
@@ -53,11 +56,7 @@ async function main() {
     totalKarma += comment.counts.score;
   });
 
-  await appendKarmaToDiv(totalKarma);
-}
-
-async function appendKarmaToDiv(karma) {
-  newLi.textContent = `${karma} Karma`;
+  newLi.textContent = `${totalKarma} Karma`;
   ulElement.appendChild(newLi);
 }
 
@@ -66,9 +65,6 @@ async function getPosts(auth, page) {
   const username = extractUsernameFromUrl(url);
 
   const endpoint = `${baseURL}/user?username=${username}&sort=New&page=${page}&limit=50&auth=${auth}`;
-  console.log(endpoint);
-  console.log(url);
-  console.log(baseURL);
   const response = await fetch(endpoint);
   return response.json();
 }
@@ -86,5 +82,16 @@ function extractUsernameFromUrl(url) {
   }
   return null;
 }
+
+function refreshExtension() {
+  const targetNode = document.getElementsByClassName("person-details")[0];
+  if (!shown && targetNode) {
+    main();
+  }
+  if (!targetNode) {
+    shown = false;
+  }
+}
+setInterval(refreshExtension, 500);
 
 main(); // initialize the extension
