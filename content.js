@@ -26,6 +26,7 @@ async function main() {
   const auth = getJwtCookie("jwt");
 
   if (!auth) {
+    newLi.textContent = `Please login to Lemmy..`;
     return;
   }
 
