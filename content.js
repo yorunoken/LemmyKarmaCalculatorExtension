@@ -86,7 +86,8 @@ function extractUsernameFromUrl(url) {
 
 function refreshExtension() {
   const targetNode = document.getElementsByClassName("person-details")[0];
-  if (!shown && targetNode) {
+  const targetNode2 = document.getElementsByClassName("person-profile")[0];
+  if (!shown && targetNode && targetNode2) {
     main();
   }
   if (!targetNode) {
