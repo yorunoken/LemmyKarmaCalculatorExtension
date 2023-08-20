@@ -6,12 +6,12 @@
   "permissions": ["activeTab", "storage"],
   "browser_action": {
     "default_icon": {
-      "128": "images/test.png"
+      "256": "images/test.png"
     }
   },
   "content_scripts": [
     {
-      "matches": ["https://lemmy.ml/*", "https://lemmy.world/*"],
+      "matches": ["*://*/*"],
       "js": ["content.js"]
     }
   ]
